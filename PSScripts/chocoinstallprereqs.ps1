@@ -26,6 +26,9 @@ choco install 7zip.install --y
 #Install Edge
 choco install microsoft-edge --y
 
+#Install package provider
+Install-PackageProvider -Name NuGet -Scope AllUsers -Force -Confirm:$false -Verbose
+
 #install Required PS Modules
 $modules = @(
 'ExchangeOnlineManagement'
