@@ -2,7 +2,6 @@
 #Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 
-
 #Install .Net 4.8
 choco install dotnetfx --y
 
@@ -26,3 +25,16 @@ choco install 7zip.install --y
 
 #Install Edge
 choco install microsoft-edge --y
+
+#install Required PS Modules
+$modules = @(
+'ExchangeOnlineManagement'
+'ImportExcel'
+'Az'
+'AzureAdPreview'
+'MsOnline'
+)
+
+$modules | ForEach-Object {
+    Install-Module -Name $_ -Scope AllUsers -AllowClobber -Force -Confirm:$false -ErrorAction SilentlyContinue
+}
