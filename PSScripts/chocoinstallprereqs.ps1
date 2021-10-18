@@ -50,7 +50,7 @@ $url = 'https://download.microsoft.com/download/5/3/e/53e75dbd-ca33-496a-bd23-1d
 $dst = 'C:\temp\Ex2019.ISO'
 $wc = New-Object System.Net.WebClient
 $wc.DownloadFile($url, $dst)
-Mount-DiskImage $dst -Confirm:$false
+#Mount-DiskImage $dst -Confirm:$false (not needed)
 
 #Extract and Copy Setup Files to C:\Exsetup
 $exsetup = 'C:\ExSetup'
