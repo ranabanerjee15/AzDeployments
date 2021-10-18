@@ -12,4 +12,3 @@ choco install notepadplusplus --y
 
 #Install 7 Zip
 choco install 7zip.install --y
-
