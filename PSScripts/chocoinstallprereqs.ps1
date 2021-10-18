@@ -52,5 +52,10 @@ $wc = New-Object System.Net.WebClient
 $wc.DownloadFile($url, $dst)
 Mount-DiskImage $dst -Confirm:$false
 
+#Extract and Copy Setup Files to C:\Exsetup
+$exsetup = 'C:\ExSetup'
+$command = "7z x -y '$dst' -o'$exsetup'"
+Invoke-Expression $command
+
 #Reboots Computer
 Restart-Computer -Force
