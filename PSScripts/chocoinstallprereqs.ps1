@@ -41,3 +41,11 @@ $modules = @(
 $modules | ForEach-Object {
     Install-Module -Name $_ -Scope AllUsers -AllowClobber -Force -Confirm:$false -ErrorAction SilentlyContinue
 }
+
+<#
+
+Download link to Ex 2019 CU 11
+
+https://download.microsoft.com/download/5/3/e/53e75dbd-ca33-496a-bd23-1d861feaa02a/ExchangeServer2019-x64-CU11.ISO
+
+#>
