@@ -14,6 +14,9 @@ choco install msvisualcplusplus2013-redist --y
 #Install Unified Communications Managed API 4.0
 choco install ucma4 --y
 
+#Install URL Rewrite
+choco install urlrewrite --y
+
 #Install Chrome
 choco install chrome-remote-desktop-chrome --y
 
@@ -42,10 +45,12 @@ $modules | ForEach-Object {
     Install-Module -Name $_ -Scope AllUsers -AllowClobber -Force -Confirm:$false -ErrorAction SilentlyContinue
 }
 
-<#
+#Download and Mount Exchange ISO Image
+$url = 'https://download.microsoft.com/download/5/3/e/53e75dbd-ca33-496a-bd23-1d861feaa02a/ExchangeServer2019-x64-CU11.ISO'
+$dst = 'C:\temp\Ex2019.ISO'
+$wc = New-Object System.Net.WebClient
+$wc.DownloadFile($url, $dst)
+Mount-DiskImage $dst -Confirm:$false
 
-Download link to Ex 2019 CU 11
-
-https://download.microsoft.com/download/5/3/e/53e75dbd-ca33-496a-bd23-1d861feaa02a/ExchangeServer2019-x64-CU11.ISO
-
-#>
+#Reboots Computer
+Restart-Computer -Force
