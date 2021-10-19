@@ -45,18 +45,21 @@ $modules | ForEach-Object {
     Install-Module -Name $_ -Scope AllUsers -AllowClobber -Force -Confirm:$false -ErrorAction SilentlyContinue
 }
 
-#Download and Mount Exchange ISO Image
-$dst = 'C:\temp\Ex2019.ISO'
-mkdir $dst
+#Create Required Folders
+$ExSetupDir = 'C:\ExSetup'
+$TempDir = 'C:\Temp'
+$ExISOPath = 'C:\Temp\Ex2019.ISO'
+New-Item -path $TempDir -ItemType Directory -Force
+New-Item -path $ExSetupDir -ItemType Directory -Force
+ 
+#Download Ex2019 CU11 ISO
 $url = 'https://download.microsoft.com/download/5/3/e/53e75dbd-ca33-496a-bd23-1d861feaa02a/ExchangeServer2019-x64-CU11.ISO'
 $wc = New-Object System.Net.WebClient
-$wc.DownloadFile($url, $dst)
+$wc.DownloadFile($url, $ExISOPath)
 #Mount-DiskImage $dst -Confirm:$false (not needed)
 
 #Extract and Copy Setup Files to C:\Exsetup
-$exsetup = 'C:\ExSetup'
-mkdir $exsetup
-$command = "7z x -y '$dst' -o'$exsetup'"
+$command = "7z x -y '$ExISOPath' -o'$ExSetupDir'"
 Invoke-Expression $command
 
 #Reboots Computer
