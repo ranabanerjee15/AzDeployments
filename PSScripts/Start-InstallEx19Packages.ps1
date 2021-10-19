@@ -1,6 +1,6 @@
 #Install Choco
 #Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+Set-ExecutionPolicy Bypass -Scope Process -Force; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 
 #Install Chrome
 choco install chrome-remote-desktop-chrome --y
@@ -26,8 +26,8 @@ choco install msvisualcplusplus2013-redist --y
 #Install Unified Communications Managed API 4.0
 choco install ucma4 --y
 
-#Install IIS URL Rewrite
-choco install urlrewrite --y
+#Install IIS URL Rewrite - Does not install under user context
+#choco install urlrewrite --y
 
 #Install package provider
 Install-PackageProvider -Name NuGet -Scope AllUsers -Force -Confirm:$false -Verbose
@@ -49,8 +49,8 @@ $modules | ForEach-Object {
 $ExSetupDir = 'C:\ExSetup'
 $TempDir = 'C:\Temp'
 $ExISOPath = 'C:\Temp\Ex2019.ISO'
-New-Item -path $TempDir -ItemType Directory -Force
-New-Item -path $ExSetupDir -ItemType Directory -Force
+New-Item -Path $TempDir -ItemType Directory -Force
+New-Item -Path $ExSetupDir -ItemType Directory -Force
  
 #Download Ex2019 CU11 ISO
 $url = 'https://download.microsoft.com/download/5/3/e/53e75dbd-ca33-496a-bd23-1d861feaa02a/ExchangeServer2019-x64-CU11.ISO'
