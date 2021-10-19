@@ -61,6 +61,3 @@ $wc.DownloadFile($url, $ExISOPath)
 #Extract and Copy Setup Files to C:\Exsetup
 $command = "7z x -y '$ExISOPath' -o'$ExSetupDir'"
 Invoke-Expression $command
-
-#Reboots Computer
-Restart-Computer -Force
