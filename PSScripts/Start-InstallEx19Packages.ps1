@@ -2,6 +2,18 @@
 #Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 
+#Install Chrome
+choco install chrome-remote-desktop-chrome --y
+
+#Install Notepad++
+choco install notepadplusplus --y
+
+#Install 7 Zip
+choco install 7zip.install --y
+
+#Install Edge
+choco install microsoft-edge --y
+
 #Install .Net 4.8
 choco install dotnetfx --y
 
@@ -14,20 +26,8 @@ choco install msvisualcplusplus2013-redist --y
 #Install Unified Communications Managed API 4.0
 choco install ucma4 --y
 
-#Install URL Rewrite
+#Install IIS URL Rewrite
 choco install urlrewrite --y
-
-#Install Chrome
-choco install chrome-remote-desktop-chrome --y
-
-#Install Notepad++
-choco install notepadplusplus --y
-
-#Install 7 Zip
-choco install 7zip.install --y
-
-#Install Edge
-choco install microsoft-edge --y
 
 #Install package provider
 Install-PackageProvider -Name NuGet -Scope AllUsers -Force -Confirm:$false -Verbose
