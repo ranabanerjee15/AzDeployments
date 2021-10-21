@@ -12,7 +12,10 @@ $modules | ForEach-Object {
     Install-Module -Name $_ -Scope AllUsers -AllowClobber -Force -Confirm:$false -ErrorAction SilentlyContinue
 }
 
-#Configure Exclusions
+#Configure Exclusions - Does not pick up on paths correctly
+
+<#
+
 $SystemRoot = $env:SystemRoot
 $SystemDrive = $env:SystemDrive
 $ExInstallPath = $env:ExchangeInstallPath
@@ -42,6 +45,33 @@ $FolderExclusions = @(
     "$($SystemRoot)\System32\Inetsrv"
     "$($SystemRoot)\System32\Inetsrv"
     #"$($SystemRoot)\Temp\*
+)
+#>
+
+$FolderExclusions = @(
+    "C:\Windows\Cluster"
+    "C:\Program Files\Microsoft\Exchange Server\V15\ClientAccess\OAB"
+    "C:\Program Files\Microsoft\Exchange Server\V15\FIP-FS"
+    "C:\Program Files\Microsoft\Exchange Server\V15\GroupMetrics"
+    "C:\Program Files\Microsoft\Exchange Server\V15\Logging"
+    "C:\Program Files\Microsoft\Exchange Server\V15\Mailbox"
+    "C:\Program Files\Microsoft\Exchange Server\V15\TransportRoles\Data\Adam"
+    "C:\Program Files\Microsoft\Exchange Server\V15\TransportRoles\Data\IpFilter"
+    "C:\Program Files\Microsoft\Exchange Server\V15\TransportRoles\Data\Queue"
+    "C:\Program Files\Microsoft\Exchange Server\V15\TransportRoles\Data\SenderReputation"
+    "C:\Program Files\Microsoft\Exchange Server\V15\TransportRoles\Data\Temp"
+    "C:\Program Files\Microsoft\Exchange Server\V15\TransportRoles\Logs"
+    "C:\Program Files\Microsoft\Exchange Server\V15\TransportRoles\Pickup"
+    "C:\Program Files\Microsoft\Exchange Server\V15\TransportRoles\Replay"
+    "C:\Program Files\Microsoft\Exchange Server\V15\UnifiedMessaging\Grammars"
+    "C:\Program Files\Microsoft\Exchange Server\V15\UnifiedMessaging\Prompts"
+    "C:\Program Files\Microsoft\Exchange Server\V15\UnifiedMessaging\Temp"
+    "C:\Program Files\Microsoft\Exchange Server\V15\UnifiedMessaging\Voicemail"
+    "C:\Program Files\Microsoft\Exchange Server\V15\Working\OleConverter"
+    "C:\inetpub\temp\IIS Temporary Compressed Files"
+    "C:\Microsoft.NET\Framework64\v4.0.30319\Temporary ASP.NET Files"
+    "C:\Windows\System32\Inetsrv"
+    "C:\Windows\System32\Inetsrv"
 )
 
 $ProcessExclusions = @(
