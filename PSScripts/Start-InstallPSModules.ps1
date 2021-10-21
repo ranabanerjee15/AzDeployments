@@ -149,7 +149,8 @@ $paramAddMpPreference = @{
 
 Add-MpPreference @paramAddMpPreference
 
-# Add Address Book
+# Add Address Book - Did not Work
+<#
 Import-Module "C:\Program Files\Microsoft\Exchange Server\V15\bin\RemoteExchange.ps1"; Connect-ExchangeServer -auto -ClientApplication:ManagementShell
 $paramNewEmailAddressPolicy = @{
     Name                         = 'Lab01.Online'
@@ -160,4 +161,6 @@ $paramNewEmailAddressPolicy = @{
     Priority                     = 1
 }
 
+
 New-EmailAddressPolicy @paramNewEmailAddressPolicy
+#>
