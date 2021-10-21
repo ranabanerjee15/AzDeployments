@@ -149,3 +149,15 @@ $paramAddMpPreference = @{
 
 Add-MpPreference @paramAddMpPreference
 
+# Add Address Book
+Import-Module "C:\Program Files\Microsoft\Exchange Server\V15\bin\RemoteExchange.ps1"; Connect-ExchangeServer -auto -ClientApplication:ManagementShell
+$paramNewEmailAddressPolicy = @{
+    Name                         = 'Lab01.Online'
+    IncludedRecipients           = 'AllRecipients'
+    RecipientContainer           = "Lab01.local/LAB01"
+    EnabledEmailAddressTemplates = "SMTP:%g.%s@Lab01.online"
+    Confirm                      = $false
+    Priority                     = 1
+}
+
+New-EmailAddressPolicy @paramNewEmailAddressPolicy
