@@ -118,3 +118,4 @@ $paramAddMpPreference = @{
 }
 
 Add-MpPreference @paramAddMpPreference
+
