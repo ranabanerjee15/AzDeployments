@@ -12,59 +12,109 @@ $modules | ForEach-Object {
     Install-Module -Name $_ -Scope AllUsers -AllowClobber -Force -Confirm:$false -ErrorAction SilentlyContinue
 }
 
-<#
-#Install Choco
-#Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-Set-ExecutionPolicy Bypass -Scope Process -Force; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+#Configure Exclusions
+$SystemRoot = $env:SystemRoot
+$SystemDrive = $env:SystemDrive
+$ExInstallPath = $env:ExchangeInstallPath
 
-#Install Chrome
-choco install chrome-remote-desktop-chrome --y
+$FolderExclusions = @(
+    "$($SystemRoot)\Cluster"
+    "$($ExInstallPath)ClientAccess\OAB"
+    "$($ExInstallPath)FIP-FS"
+    "$($ExInstallPath)GroupMetrics"
+    "$($ExInstallPath)Logging"
+    "$($ExInstallPath)Mailbox"
+    "$($ExInstallPath)TransportRoles\Data\Adam"
+    "$($ExInstallPath)TransportRoles\Data\IpFilter"
+    "$($ExInstallPath)TransportRoles\Data\Queue"
+    "$($ExInstallPath)TransportRoles\Data\SenderReputation"
+    "$($ExInstallPath)TransportRoles\Data\Temp"
+    "$($ExInstallPath)TransportRoles\Logs"
+    "$($ExInstallPath)TransportRoles\Pickup"
+    "$($ExInstallPath)TransportRoles\Replay"
+    "$($ExInstallPath)UnifiedMessaging\Grammars"
+    "$($ExInstallPath)UnifiedMessaging\Prompts"
+    "$($ExInstallPath)UnifiedMessaging\Temp"
+    "$($ExInstallPath)UnifiedMessaging\Voicemail"
+    "$($ExInstallPath)Working\OleConverter"
+    "$($SystemDrive)\inetpub\temp\IIS Temporary Compressed Files"
+    "$($SystemDrive)\Microsoft.NET\Framework64\v4.0.30319\Temporary ASP.NET Files"
+    "$($SystemRoot)\System32\Inetsrv"
+    "$($SystemRoot)\System32\Inetsrv"
+    #"$($SystemRoot)\Temp\*
+)
 
-#Install Notepad++
-choco install notepadplusplus --y
+$ProcessExclusions = @(
+    "ComplianceAuditService.exe"
+    "Dsamain.exe"
+    "EdgeTransport.exe"
+    "fms.exe"
+    "hostcontrollerservice.exe"
+    "inetinfo.exe"
+    "Microsoft.Exchange.AntispamUpdateSvc.exe"
+    "Microsoft.Exchange.ContentFilter.Wrapper.exe"
+    "Microsoft.Exchange.Diagnostics.Service.exe"
+    "Microsoft.Exchange.Directory.TopologyService.exe"
+    "Microsoft.Exchange.EdgeCredentialSvc.exe"
+    "Microsoft.Exchange.EdgeSyncSvc.exe"
+    "Microsoft.Exchange.Imap4.exe"
+    "Microsoft.Exchange.Imap4service.exe"
+    "Microsoft.Exchange.Notifications.Broker.exe"
+    "Microsoft.Exchange.Pop3.exe"
+    "Microsoft.Exchange.Pop3service.exe"
+    "Microsoft.Exchange.ProtectedServiceHost.exe"
+    "Microsoft.Exchange.RPCClientAccess.Service.exe"
+    "Microsoft.Exchange.Search.Service.exe"
+    "Microsoft.Exchange.Servicehost.exe"
+    "Microsoft.Exchange.Store.Service.exe"
+    "Microsoft.Exchange.Store.Worker.exe"
+    "Microsoft.Exchange.UM.CallRouter.exe"
+    "MSExchangeCompliance.exe"
+    "MSExchangeDagMgmt.exe"
+    "MSExchangeDelivery.exe"
+    "MSExchangeFrontendTransport.exe"
+    "MSExchangeHMHost.exe"
+    "MSExchangeHMWorker.exe"
+    "MSExchangeMailboxAssistants.exe"
+    "MSExchangeMailboxReplication.exe"
+    "MSExchangeRepl.exe"
+    "MSExchangeSubmission.exe"
+    "MSExchangeTransport.exe"
+    "MSExchangeTransportLogSearch.exe"
+    "MSExchangeThrottling.exe"
+    "Noderunner.exe"
+    "OleConverter.exe"
+    "ParserServer.exe"
+    "Powershell.exe"
+    "ScanEngineTest.exe"
+    "ScanningProcess.exe"
+    "UmService.exe"
+    "UmWorkerProcess.exe"
+    "UpdateService.exe"
+    "W3wp.exe"
+    "wsbexchange.exe"
+)
 
-#Install 7 Zip
-choco install 7zip.install --y
+$ExtensionExclusions = @(
+    ".chk"
+    ".edb"
+    ".jfm"
+    ".jrs"
+    ".log"
+    ".que"
+    ".dsc"
+    ".txt"
+    ".cfg"
+    ".grxml"
+    ".lzx"
+)
 
-#Install Edge
-choco install microsoft-edge --y
+$paramAddMpPreference = @{
+    ExclusionPath      = $FolderExclusions
+    ExclusionProcess   = $ProcessExclusions
+    ExclusionExtension = $ExtensionExclusions
+    Verbose            = $true
+    ErrorAction        = 'SilentlyContinue'
+}
 
-#Install .Net 4.8
-choco install dotnetfx --y
-
-#Install Visual C++ Redistributable Package for Visual Studio 2012
-choco install vcredist2017 --y
-
-#Install Visual C++ Redistributable Package for Visual Studio 2013
-choco install msvisualcplusplus2013-redist --y
-
-#Install Unified Communications Managed API 4.0
-choco install ucma4 --y
-
-#Install IIS URL Rewrite - Does not install under user context
-#choco install urlrewrite --y
-
-#Install package provider
-Install-PackageProvider -Name NuGet -Scope AllUsers -Force -Confirm:$false -Verbose
-
-#install Required PS Modules
-
-
-
-#Create Required Folders
-$ExSetupDir = 'C:\ExSetup'
-$TempDir = 'C:\Temp'
-$ExISOPath = 'C:\Temp\Ex2019.ISO'
-New-Item -Path $TempDir -ItemType Directory -Force
-New-Item -Path $ExSetupDir -ItemType Directory -Force
- 
-#Download Ex2019 CU11 ISO
-$url = 'https://download.microsoft.com/download/5/3/e/53e75dbd-ca33-496a-bd23-1d861feaa02a/ExchangeServer2019-x64-CU11.ISO'
-$wc = New-Object System.Net.WebClient
-$wc.DownloadFile($url, $ExISOPath)
-#Mount-DiskImage $dst -Confirm:$false (not needed)
-
-#Extract and Copy Setup Files to C:\Exsetup
-$command = "7z x -y '$ExISOPath' -o'$ExSetupDir'"
-Invoke-Expression $command
-#>
+Add-MpPreference @paramAddMpPreference
