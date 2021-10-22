@@ -46,7 +46,7 @@ $FolderExclusions = @(
     "$($SystemRoot)\System32\Inetsrv"
     #"$($SystemRoot)\Temp\*
 )
-#>
+
 
 $FolderExclusions = @(
     "C:\Windows\Cluster"
